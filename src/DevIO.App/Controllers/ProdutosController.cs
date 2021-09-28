@@ -18,13 +18,15 @@ namespace DevIO.App.Controllers
     {
         private readonly IProdutoRepository _produtoRepository;
         private readonly IFornecedorRepository _fornecedorRepository;
+        private readonly IGrupoRepository _GrupoRepository;
         private readonly IProdutoService _produtoService;
         private readonly IMapper _mapper;
 
-        public ProdutosController(IProdutoRepository produtoRepository, IFornecedorRepository fornecedorRepository, IMapper mapper, IProdutoService produtoService,INotificador notificador) : base(notificador)
+        public ProdutosController(IProdutoRepository produtoRepository, IFornecedorRepository fornecedorRepository, IGrupoRepository grupoRepository, IMapper mapper, IProdutoService produtoService,INotificador notificador) : base(notificador)
         {
             _produtoRepository = produtoRepository;
             _fornecedorRepository = fornecedorRepository;
+            _GrupoRepository = grupoRepository;
             _mapper = mapper;
             _produtoService = produtoService;
         }
@@ -55,6 +57,7 @@ namespace DevIO.App.Controllers
         public async Task<IActionResult> Create()
         {
             var produtoViewModel = await PopularFornecedores(new ProdutoViewModel());
+            //produtoViewModel = await PopularGrupos(new ProdutoViewModel());
 
             return View(produtoViewModel);
         }
@@ -175,6 +178,12 @@ namespace DevIO.App.Controllers
         private async Task<ProdutoViewModel> PopularFornecedores(ProdutoViewModel produto)
         {
             produto.Fornecedores = _mapper.Map<IEnumerable<FornecedorViewModel>>(await _fornecedorRepository.ObterTodos());
+            return produto;
+        }
+
+        private async Task<ProdutoViewModel> PopularGrupos(ProdutoViewModel produto)
+        {
+            produto.Grupos = _mapper.Map<IEnumerable<GrupoViewModel>>(await _GrupoRepository.ObterTodos());
             return produto;
         }
 

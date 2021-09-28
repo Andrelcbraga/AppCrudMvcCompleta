@@ -1,14 +1,13 @@
 ﻿using System;
-using System;
 using System.Threading.Tasks;
 using DevIO.Business.Models;
 
 namespace DevIO.Business.Intefaces
 {
-    public interface IProdutoService : IDisposable
+    public interface IGrupoService : IDisposable
     {
-        Task Adicionar(Produto produto);
-        Task Atualizar(Produto produto);
+        Task Adicionar(Grupo grupo);
+        Task Atualizar(Grupo Grupo);
         Task Remover(Guid id);
     }
 }
